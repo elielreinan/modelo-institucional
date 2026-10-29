@@ -1,0 +1,26 @@
+---
+import NewsCard from "../components/NewsCard.astro";
+import PageHeading from "../components/PageHeading.astro";
+import { client } from "../config/client";
+import { news } from "../data";
+import SiteLayout from "../layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="Notícias"
+  description={`Comunicados e notícias da Prefeitura de ${client.municipality}.`}
+>
+  <main id="conteudo">
+    <PageHeading
+      eyebrow="Comunicados oficiais"
+      title="Notícias"
+      description={`Acompanhe os comunicados e as ações da Prefeitura de ${client.municipality}.`}
+    />
+    <section class="inner-section container">
+      <p class="demo-notice">Conteúdo demonstrativo. Atualize as chamadas e datas antes de publicar o portal.</p>
+      <div class="news-grid news-grid--page">
+        {news.map((item) => <NewsCard {...item} />)}
+      </div>
+    </section>
+  </main>
+</SiteLayout>

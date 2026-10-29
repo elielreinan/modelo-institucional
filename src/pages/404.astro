@@ -1,0 +1,18 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { sitePath } from "../utils/sitePath";
+---
+
+<SiteLayout
+  title="Página não encontrada"
+  description="O endereço solicitado não existe ou foi alterado."
+  activePath=""
+>
+  <main id="conteudo" class="state-page container">
+    <span class="state-page__code">404</span>
+    <span class="eyebrow">Endereço não encontrado</span>
+    <h1>Esta página não existe.</h1>
+    <p>O endereço pode estar incorreto ou a página foi movida.</p>
+    <a class="button button--green" href={sitePath("/")}>Voltar para o início</a>
+  </main>
+</SiteLayout>

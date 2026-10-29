@@ -1,0 +1,49 @@
+---
+import Icon from "../components/Icon.astro";
+import PageHeading from "../components/PageHeading.astro";
+import { client } from "../config/client";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { sitePath } from "../utils/sitePath";
+---
+
+<SiteLayout
+  title="A Prefeitura"
+  description={`Conheça a Prefeitura de ${client.municipality} e os canais de participação cidadã.`}
+>
+  <main id="conteudo">
+    <PageHeading
+      eyebrow="Conheça o município"
+      title="A Prefeitura"
+      description="Informações institucionais e canais de atendimento do município."
+    />
+    <section class="inner-section container about-layout">
+      <div class="about-copy">
+        <span class="eyebrow">O município</span>
+        <h2>Prefeitura de {client.municipality}</h2>
+        <p>
+          Este espaço reúne informações sobre a administração municipal, seus serviços e
+          os canais para entrar em contato com a Prefeitura.
+        </p>
+        <p>Consulte os serviços disponíveis e acompanhe as informações públicas do município.</p>
+        <a class="button button--green" href={sitePath("/contato")}>Canais de atendimento <Icon name="arrow" size={17} /></a>
+      </div>
+      <div class="about-values">
+        <div class="value-card">
+          <span><Icon name="heart" size={25} /></span>
+          <h3>Serviços ao cidadão</h3>
+          <p>Acesso a informações e atendimentos municipais.</p>
+        </div>
+        <div class="value-card">
+          <span><Icon name="shield" size={25} /></span>
+          <h3>Transparência</h3>
+          <p>Consulte dados e informações públicas.</p>
+        </div>
+        <div class="value-card">
+          <span><Icon name="people" size={25} /></span>
+          <h3>Participação</h3>
+          <p>Encontre canais para falar com a Prefeitura.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</SiteLayout>

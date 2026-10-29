@@ -1,0 +1,34 @@
+---
+import { client } from "../config/client";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import "../styles.css";
+
+interface Props {
+  title: string;
+  description: string;
+  activePath?: string;
+}
+
+const { title, description, activePath = Astro.url.pathname } = Astro.props;
+---
+
+<!doctype html>
+<html
+  lang="pt-BR"
+  style={`--color-primary: ${client.theme.primary}; --color-primary-dark: ${client.theme.primaryDark}; --color-accent: ${client.theme.accent}; --color-surface: ${client.theme.surface};`}
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={client.theme.primaryDark} />
+    <title>{title} | {client.name}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <SiteHeader activePath={activePath} />
+    <slot />
+    <SiteFooter />
+  </body>
+</html>

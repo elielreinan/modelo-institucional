@@ -1,0 +1,76 @@
+---
+import Icon from "../components/Icon.astro";
+import NewsCard from "../components/NewsCard.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import { client } from "../config/client";
+import { news, services } from "../data";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { sitePath } from "../utils/sitePath";
+---
+
+<SiteLayout
+  title="Início"
+  description={`Serviços, notícias e informações públicas da Prefeitura de ${client.municipality}.`}
+  activePath="/"
+>
+  <main id="conteudo">
+    <section class="hero">
+      <div class:list={["container", "hero__inner", !client.heroImage && "hero__inner--text-only"]}>
+        <div class="hero__copy">
+          <span class="hero__eyebrow">Portal oficial • {client.municipality} / {client.state}</span>
+          <h1>Prefeitura perto de você.</h1>
+          <p>Serviços, notícias e informações públicas do município em um só lugar.</p>
+          <div class="hero__actions">
+            <a class="button button--light" href={sitePath("/servicos")}>Consultar serviços <Icon name="arrow" size={18} /></a>
+            <a class="button button--outline" href={sitePath("/transparencia")}>Acesso à informação</a>
+          </div>
+        </div>
+        {
+          client.heroImage && (
+            <figure class="hero__visual">
+              <img src={sitePath(client.heroImage)} alt={client.heroImageAlt} />
+              <figcaption>
+                Imagem ilustrativa · substitua por uma foto de {client.municipality}<br />
+                Foto: <a href={client.heroImageCreditUrl} target="_blank" rel="noreferrer">{client.heroImageCredit}</a>
+              </figcaption>
+            </figure>
+          )
+        }
+      </div>
+    </section>
+
+    <section class="quick-services section-pad" id="servicos">
+      <div class="container">
+        <div class="section-heading">
+          <div><span class="eyebrow">Atendimento ao cidadão</span><h2>Serviços mais acessados</h2></div>
+          <a class="text-link" href={sitePath("/servicos")}>Todos os serviços <Icon name="arrow" size={17} /></a>
+        </div>
+        <div class="service-grid">
+          {services.map((service) => <ServiceCard {...service} />)}
+        </div>
+      </div>
+    </section>
+
+    <section class="news-section section-pad">
+      <div class="container">
+        <div class="section-heading">
+          <div><span class="eyebrow">Comunicados</span><h2>Últimas notícias</h2></div>
+          <a class="text-link" href={sitePath("/noticias")}>Todas as notícias <Icon name="arrow" size={17} /></a>
+        </div>
+        <p class="demo-notice">Notícias de exemplo — substitua pelo conteúdo oficial do município.</p>
+        <div class="news-grid">
+          {news.map((item) => <NewsCard {...item} />)}
+        </div>
+      </div>
+    </section>
+
+    <section class="participation">
+      <div class="container participation__inner">
+        <span class="eyebrow eyebrow--light">Atendimento</span>
+        <h2>Precisa falar com a Prefeitura?</h2>
+        <p>Consulte os canais de atendimento, horários e endereço do Paço Municipal.</p>
+        <a class="button button--light" href={sitePath("/contato")}>Ver canais de atendimento <Icon name="arrow" size={18} /></a>
+      </div>
+    </section>
+  </main>
+</SiteLayout>

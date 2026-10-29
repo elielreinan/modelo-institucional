@@ -1,0 +1,62 @@
+---
+import Icon from "../components/Icon.astro";
+import PageHeading from "../components/PageHeading.astro";
+import { client } from "../config/client";
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const phoneLink = client.phone.replace(/\D/g, "");
+---
+
+<SiteLayout
+  title="Contato"
+  description={`Canais oficiais de atendimento da Prefeitura de ${client.municipality}.`}
+>
+  <main id="conteudo">
+    <PageHeading
+      eyebrow="Atendimento ao cidadão"
+      title="Fale com a Prefeitura"
+      description="Consulte os canais oficiais para tirar dúvidas ou encaminhar solicitações."
+    />
+    <section class="inner-section container contact-layout">
+      <div class="contact-cards">
+        <a class="contact-card" href={`tel:${phoneLink}`}>
+          <span><Icon name="people" size={24} /></span>
+          <div>
+            <small>Telefone</small>
+            <strong>{client.phone}</strong>
+            <p>Atendimento em dias úteis</p>
+          </div>
+          <Icon name="arrow" size={17} />
+        </a>
+        <a class="contact-card" href={`mailto:${client.email}`}>
+          <span><Icon name="document" size={24} /></span>
+          <div>
+            <small>E-mail</small>
+            <strong>{client.email}</strong>
+            <p>Retornamos o mais breve possível</p>
+          </div>
+          <Icon name="arrow" size={17} />
+        </a>
+        <div class="contact-card">
+          <span><Icon name="location" size={24} /></span>
+          <div>
+            <small>Endereço</small>
+            <strong>{client.address}</strong>
+            <p>{client.officeHours}</p>
+          </div>
+        </div>
+      </div>
+      <aside class="contact-note">
+        <span class="eyebrow">Ouvidoria municipal</span>
+        <h2>Fale pelos canais oficiais.</h2>
+        <p>
+          Para registrar uma manifestação ou solicitar informações, entre em contato
+          com a equipe de atendimento do município.
+        </p>
+        <a class="button button--green" href={`mailto:${client.email}`}>
+          Enviar uma mensagem <Icon name="arrow" size={17} />
+        </a>
+      </aside>
+    </section>
+  </main>
+</SiteLayout>

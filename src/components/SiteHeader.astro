@@ -1,0 +1,94 @@
+---
+import { client } from "../config/client";
+import { sitePath } from "../utils/sitePath";
+import Icon from "./Icon.astro";
+
+interface Props {
+  activePath: string;
+}
+
+const { activePath } = Astro.props;
+const navItems = [
+  { href: "/", label: "Início" },
+  { href: "/servicos", label: "Serviços" },
+  { href: "/noticias", label: "Notícias" },
+  { href: "/prefeitura", label: "A Prefeitura" },
+  { href: "/transparencia", label: "Transparência" },
+  { href: "/contato", label: "Contato" },
+];
+const phoneLink = client.phone.replace(/\D/g, "");
+---
+
+<div class="topbar">
+  <div class="container topbar__inner">
+    <span>Prefeitura Municipal de {client.municipality} • {client.state}</span>
+    <div class="topbar__links">
+      <a href={sitePath("/transparencia")}>Acesso à informação</a>
+      <a href={sitePath("/contato")}>Ouvidoria</a>
+      <a class="accessibility-link" href="#conteudo"
+        >Ir para o conteúdo <span aria-hidden="true">↓</span></a
+      >
+    </div>
+  </div>
+</div>
+<header class="site-header">
+  <div class="container site-header__main">
+    <a class="brand" href={sitePath("/")} aria-label={`${client.name} — página inicial`}>
+      {client.logoUrl && <img class="brand__logo" src={sitePath(client.logoUrl)} alt="" />}
+      <span class="brand__text">
+        <span>Prefeitura Municipal</span>
+        <strong>{client.municipality}</strong>
+      </span>
+    </a>
+    <a class="header-contact" href={`tel:${phoneLink}`}>
+      <span class="header-contact__icon"><Icon name="people" size={20} /></span>
+      <span><small>Precisa de ajuda?</small><strong>{client.phone}</strong></span>
+    </a>
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-label="Abrir menu"
+      aria-expanded="false"
+      aria-controls="main-nav"
+    >
+      <Icon name="menu" />
+    </button>
+  </div>
+  <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
+    <div class="container main-nav__inner">
+      {
+        navItems.map(({ href, label }) => (
+          <a
+            href={sitePath(href)}
+            aria-current={activePath.replace(/\/$/, "") === href.replace(/\/$/, "") ? "page" : undefined}
+          >
+            {label}
+          </a>
+        ))
+      }
+      <a class="nav-search" href={sitePath("/servicos")} aria-label="Buscar serviços">
+        <Icon name="search" size={19} />
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const menuButton = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const navigation = document.querySelector<HTMLElement>("#main-nav");
+
+  menuButton?.addEventListener("click", () => {
+    const expanded = menuButton.getAttribute("aria-expanded") === "true";
+    menuButton.setAttribute("aria-expanded", String(!expanded));
+    menuButton.setAttribute("aria-label", expanded ? "Abrir menu" : "Fechar menu");
+    navigation?.classList.toggle("main-nav--open", !expanded);
+  });
+
+  navigation?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      menuButton?.setAttribute("aria-expanded", "false");
+      menuButton?.setAttribute("aria-label", "Abrir menu");
+      navigation.classList.remove("main-nav--open");
+    });
+  });
+</script>

@@ -1,0 +1,42 @@
+---
+import { client } from "../config/client";
+import { sitePath } from "../utils/sitePath";
+import Icon from "./Icon.astro";
+
+const phoneLink = client.phone.replace(/\D/g, "");
+---
+
+<footer class="site-footer">
+  <div class="container footer-main">
+    <div class="footer-brand">
+      <a class="brand brand--footer" href={sitePath("/")}>
+        {client.logoUrl && <img class="brand__logo" src={sitePath(client.logoUrl)} alt="" />}
+        <span class="brand__text">
+          <span>Prefeitura Municipal</span>
+          <strong>{client.municipality}</strong>
+        </span>
+      </a>
+      <p>Portal oficial de serviços e informações do município.</p>
+    </div>
+    <div class="footer-column">
+      <h2>Acesso rápido</h2>
+      <a href={sitePath("/servicos")}>Serviços municipais</a>
+      <a href={sitePath("/noticias")}>Notícias</a>
+      <a href={sitePath("/transparencia")}>Portal da transparência</a>
+      <a href={sitePath("/contato")}>Ouvidoria</a>
+    </div>
+    <div class="footer-column footer-column--contact">
+      <h2>Fale com a Prefeitura</h2>
+      <p><Icon name="location" size={18} /><span>{client.address}</span></p>
+      <p><Icon name="clock" size={18} /><span>{client.officeHours}</span></p>
+      <a href={`mailto:${client.email}`}>{client.email}</a>
+      <a href={`tel:${phoneLink}`}>{client.phone}</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container footer-bottom__inner">
+      <span>© {new Date().getFullYear()} {client.name}. Todos os direitos reservados.</span>
+      <a href={sitePath("/transparencia")}>Acesso à informação</a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,55 @@
+---
+import Icon from "../components/Icon.astro";
+import PageHeading from "../components/PageHeading.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { sitePath } from "../utils/sitePath";
+---
+
+<SiteLayout
+  title="Transparência"
+  description="Acesse dados públicos e os canais de solicitação de informações."
+>
+  <main id="conteudo">
+    <PageHeading
+      eyebrow="Gestão aberta"
+      title="Transparência"
+      description="Acesse os dados públicos e os canais de solicitação de informações."
+    />
+    <section class="inner-section container">
+      <div class="transparency-intro">
+        <span class="transparency-intro__icon"><Icon name="shield" size={34} /></span>
+        <div>
+          <h2>Informação pública é um direito de todos.</h2>
+          <p>Consulte receitas, despesas, contratos e outros dados da administração municipal.</p>
+        </div>
+      </div>
+      <p class="demo-notice">Conecte estes atalhos ao Portal da Transparência oficial antes de publicar.</p>
+      <div class="transparency-grid">
+        <a class="transparency-card" href={sitePath("/transparencia")}>
+          <span><Icon name="arrowUp" size={26} /></span>
+          <h3>Receitas e despesas</h3>
+          <p>Consulte a arrecadação e a aplicação dos recursos municipais.</p>
+          <b>Acessar informações <Icon name="arrow" size={16} /></b>
+        </a>
+        <a class="transparency-card" href={sitePath("/transparencia")}>
+          <span><Icon name="document" size={26} /></span>
+          <h3>Licitações e contratos</h3>
+          <p>Acompanhe editais, processos de compra e contratos vigentes.</p>
+          <b>Acessar informações <Icon name="arrow" size={16} /></b>
+        </a>
+        <a class="transparency-card" href={sitePath("/transparencia")}>
+          <span><Icon name="people" size={26} /></span>
+          <h3>Servidores públicos</h3>
+          <p>Consulte informações sobre o quadro de servidores municipais.</p>
+          <b>Acessar informações <Icon name="arrow" size={16} /></b>
+        </a>
+        <a class="transparency-card" href={sitePath("/contato")}>
+          <span><Icon name="document" size={26} /></span>
+          <h3>Pedido de informação</h3>
+          <p>Solicite dados públicos por meio do Serviço de Informação ao Cidadão.</p>
+          <b>Fazer uma solicitação <Icon name="arrow" size={16} /></b>
+        </a>
+      </div>
+    </section>
+  </main>
+</SiteLayout>

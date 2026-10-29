@@ -1,0 +1,19 @@
+---
+import Icon from "./Icon.astro";
+import { sitePath } from "../utils/sitePath";
+
+interface Props {
+  icon: string;
+  title: string;
+  detail: string;
+  href: string;
+}
+
+const { icon, title, detail, href } = Astro.props;
+---
+
+<a class="service-card" href={sitePath(href)}>
+  <span class="service-card__icon"><Icon name={icon} /></span>
+  <span class="service-card__body"><strong>{title}</strong><small>{detail}</small></span>
+  <span class="service-card__arrow"><Icon name="arrow" size={20} /></span>
+</a>

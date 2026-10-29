@@ -1,0 +1,22 @@
+---
+interface Props {
+  category: string;
+  date: string;
+  datetime: string;
+  title: string;
+  summary?: string;
+}
+
+const { category, date, datetime, title, summary } = Astro.props;
+---
+
+<article class="news-card">
+  <div class="news-card__content">
+    <div class="news-meta">
+      <span>{category}</span>
+      <time datetime={datetime}>{date}</time>
+    </div>
+    <h3>{title}</h3>
+    {summary && <p>{summary}</p>}
+  </div>
+</article>
