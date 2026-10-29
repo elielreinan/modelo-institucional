@@ -1,5 +1,6 @@
 ---
 import { client } from "../config/client";
+import PortalEnhancements from "../components/PortalEnhancements.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import "../styles.css";
@@ -30,5 +31,6 @@ const { title, description, activePath = Astro.url.pathname } = Astro.props;
     <SiteHeader activePath={activePath} />
     <slot />
     <SiteFooter />
+    <PortalEnhancements />
   </body>
 </html>

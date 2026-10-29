@@ -1,0 +1,157 @@
+---
+import { client } from "../config/client";
+import { sitePath } from "../utils/sitePath";
+import Icon from "./Icon.astro";
+---
+
+<div
+  class="page-loader"
+  id="page-loader"
+  role="status"
+  aria-live="polite"
+  aria-atomic="true"
+  aria-hidden="true"
+>
+  <span class="page-loader__spinner"></span>
+  <span>Carregando o portal...</span>
+</div>
+
+<aside
+  class="cookie-notice"
+  id="cookie-notice"
+  aria-labelledby="cookie-notice-title"
+  hidden
+>
+  <div class="cookie-notice__content">
+    <span class="cookie-notice__icon"><Icon name="shield" size={22} /></span>
+    <div>
+      <h2 id="cookie-notice-title">Privacidade e cookies</h2>
+      <p>
+        Este portal não usa cookies de análise ou publicidade. Guardamos sua preferência
+        neste navegador e não ativamos cookies opcionais.
+      </p>
+    </div>
+  </div>
+  <div class="cookie-notice__actions">
+    <button class="button button--green" type="button" data-cookie-choice="essential">
+      Aceitar apenas essenciais
+    </button>
+    <button class="cookie-notice__reject" type="button" data-cookie-choice="reject">
+      Rejeitar cookies opcionais
+    </button>
+  </div>
+</aside>
+
+{
+  client.announcement.enabled && (
+    <aside
+      class="announcement-popup"
+      id="announcement-popup"
+      aria-labelledby="announcement-title"
+      role="status"
+      hidden
+    >
+      <div class="announcement-popup__heading">
+        <span class="eyebrow">Aviso municipal</span>
+        <button
+          class="announcement-popup__close"
+          type="button"
+          aria-label="Fechar comunicado"
+          data-dismiss-announcement
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <h2 id="announcement-title">{client.announcement.title}</h2>
+      <p>{client.announcement.message}</p>
+      <a class="announcement-popup__link" href={sitePath(client.announcement.link)}>
+        {client.announcement.linkLabel} <Icon name="arrow" size={16} />
+      </a>
+    </aside>
+  )
+}
+
+<script>
+  const consentKey = "municipal-cookie-choice-v1";
+  const announcementKey = "municipal-announcement-shown-v1";
+  const cookieNotice = document.querySelector<HTMLElement>("#cookie-notice");
+  const announcement = document.querySelector<HTMLElement>("#announcement-popup");
+  const loader = document.querySelector<HTMLElement>("#page-loader");
+  const minimumLoaderTime = 240;
+  const loaderStartedAt = performance.now();
+  let loaderFinished = false;
+
+  const finishLoading = () => {
+    if (loaderFinished) return;
+    loaderFinished = true;
+
+    const remainingTime = Math.max(
+      0,
+      minimumLoaderTime - (performance.now() - loaderStartedAt),
+    );
+
+    window.setTimeout(() => {
+      loader?.classList.remove("page-loader--visible");
+      loader?.setAttribute("aria-hidden", "true");
+      document.body.removeAttribute("aria-busy");
+    }, remainingTime);
+  };
+
+  loader?.classList.add("page-loader--visible");
+  loader?.setAttribute("aria-hidden", "false");
+  document.body.setAttribute("aria-busy", "true");
+  window.addEventListener("load", finishLoading, { once: true });
+  window.setTimeout(finishLoading, 4000);
+  if (document.readyState === "complete") finishLoading();
+
+  const showAnnouncement = () => {
+    if (!announcement) return;
+
+    try {
+      if (sessionStorage.getItem(announcementKey)) return;
+    } catch (error) {
+      console.warn("Não foi possível ler a preferência do comunicado:", error);
+    }
+
+    announcement.hidden = false;
+    try {
+      sessionStorage.setItem(announcementKey, "true");
+    } catch (error) {
+      console.warn("Não foi possível salvar a exibição do comunicado:", error);
+    }
+  };
+
+  if (cookieNotice) {
+    try {
+      const savedChoice = localStorage.getItem(consentKey);
+      if (savedChoice) {
+        window.setTimeout(showAnnouncement, 650);
+      } else {
+        cookieNotice.hidden = false;
+      }
+    } catch (error) {
+      console.warn("Não foi possível ler a preferência de cookies:", error);
+      cookieNotice.hidden = false;
+    }
+
+    cookieNotice.querySelectorAll<HTMLButtonElement>("[data-cookie-choice]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const choice = button.dataset.cookieChoice;
+        if (!choice) return;
+
+        try {
+          localStorage.setItem(consentKey, choice);
+        } catch (error) {
+          console.warn("Não foi possível salvar a preferência de cookies:", error);
+        }
+
+        cookieNotice.hidden = true;
+        window.setTimeout(showAnnouncement, 350);
+      });
+    });
+  }
+
+  announcement?.querySelector("[data-dismiss-announcement]")?.addEventListener("click", () => {
+    announcement.hidden = true;
+  });
+</script>

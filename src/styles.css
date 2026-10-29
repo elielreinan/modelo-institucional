@@ -22,6 +22,29 @@ button:focus-visible, a:focus-visible { outline: 3px solid #b78a4e; outline-offs
 .skip-link:focus { top: 10px; }
 .container { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
 .section-pad { padding-block: 62px; }
+[hidden] { display: none !important; }
+
+.page-loader { position: fixed; z-index: 100; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--color-primary-dark); background: rgba(255,255,255,.97); font-size: 12px; opacity: 0; pointer-events: none; transition: opacity .16s ease; }
+.page-loader--visible { opacity: 1; pointer-events: auto; }
+.page-loader__spinner { width: 35px; height: 35px; border: 3px solid #dfe6df; border-top-color: var(--color-primary); border-radius: 50%; animation: loader-spin .75s linear infinite; }
+@keyframes loader-spin { to { transform: rotate(360deg); } }
+.cookie-notice { position: fixed; z-index: 50; inset: auto 0 0; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 17px max(24px, calc((100vw - 1120px) / 2)); background: #fff; border-top: 1px solid #dfe3dd; box-shadow: 0 -7px 28px rgba(30,48,37,.12); }
+.cookie-notice__content { display: flex; align-items: flex-start; gap: 12px; max-width: 650px; }
+.cookie-notice__icon { flex: 0 0 auto; color: var(--color-primary); }
+.cookie-notice h2 { margin: 0 0 4px; color: #303833; font-family: var(--font-display); font-size: 15px; font-weight: 600; }
+.cookie-notice p { margin: 0; color: #59635d; font-size: 11px; line-height: 1.6; }
+.cookie-notice__actions { display: flex; flex: 0 0 auto; align-items: center; gap: 12px; }
+.cookie-notice__actions .button { white-space: nowrap; }
+.cookie-notice__reject { padding: 8px; border: 0; color: #4c5a51; background: transparent; font-size: 10px; text-decoration: underline; cursor: pointer; }
+.cookie-notice__reject:hover { color: var(--color-primary); }
+.announcement-popup { position: fixed; z-index: 40; right: 20px; bottom: 20px; width: min(360px, calc(100vw - 32px)); padding: 18px 20px; color: #303833; background: #fff; border: 1px solid #dfe3dd; border-top: 3px solid var(--color-primary); box-shadow: 0 7px 30px rgba(30,48,37,.16); }
+.announcement-popup__heading { display: flex; align-items: center; justify-content: space-between; }
+.announcement-popup h2 { margin: 7px 0 6px; font-family: var(--font-display); font-size: 18px; font-weight: 600; }
+.announcement-popup p { margin: 0; color: #59635d; font-size: 11px; line-height: 1.65; }
+.announcement-popup__close { width: 30px; height: 30px; display: grid; place-items: center; border: 0; color: #515c55; background: transparent; font-size: 23px; cursor: pointer; }
+.announcement-popup__close:hover { color: var(--color-primary); background: var(--color-surface); }
+.announcement-popup__link { display: inline-flex; align-items: center; gap: 7px; margin-top: 12px; color: var(--color-primary); font-size: 11px; font-weight: 700; }
+.announcement-popup__link:hover { text-decoration: underline; }
 
 .topbar { background: var(--color-primary-dark); color: rgba(255,255,255,.86); font-size: 11px; }
 .topbar__inner, .topbar__links { display: flex; align-items: center; }
@@ -183,6 +206,10 @@ button:focus-visible, a:focus-visible { outline: 3px solid #b78a4e; outline-offs
 @media (max-width: 650px) {
   .container { width: min(100% - 36px, 480px); }
   .section-pad { padding-block: 45px; }
+  .cookie-notice { align-items: stretch; flex-direction: column; gap: 11px; padding: 14px 18px max(14px, env(safe-area-inset-bottom)); }
+  .cookie-notice__actions { align-items: stretch; flex-direction: column; gap: 3px; }
+  .cookie-notice__actions .button { width: 100%; }
+  .announcement-popup { right: 12px; bottom: 12px; padding: 15px 16px; }
   .topbar__inner { min-height: 32px; }
   .topbar__links { gap: 13px; }
   .topbar__links a:first-child, .accessibility-link { display: none; }
@@ -243,4 +270,5 @@ button:focus-visible, a:focus-visible { outline: 3px solid #b78a4e; outline-offs
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  .page-loader__spinner { animation: none; }
 }

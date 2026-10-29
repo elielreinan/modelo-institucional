@@ -11,6 +11,13 @@ export interface ClientConfig {
   email: string;
   address: string;
   officeHours: string;
+  announcement: {
+    enabled: boolean;
+    title: string;
+    message: string;
+    link: string;
+    linkLabel: string;
+  };
   theme: {
     primary: string;
     primaryDark: string;
@@ -33,6 +40,13 @@ export const client = {
   email: "atendimento@valedosol.sp.gov.br",
   address: "Praça da República, 100 — Centro, Vale do Sol — SP",
   officeHours: "Segunda a sexta, das 8h às 17h",
+  announcement: {
+    enabled: true,
+    title: "Comunicados da Prefeitura",
+    message: "Acompanhe nesta página os avisos e as informações oficiais do município.",
+    link: "/noticias",
+    linkLabel: "Ver notícias",
+  },
   theme: {
     primary: "#24533f",
     primaryDark: "#183b2d",
